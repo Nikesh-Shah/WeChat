@@ -1,6 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRoutes from './routes/userRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
+import conversationRoutes from './routes/conversationRoutes.js';
+import friendRoutes from './routes/friendRoutes.js';
+import callRoutes from './routes/callRoutes.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -9,11 +15,23 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Simple route
 app.get('/', (req, res) => {
   res.send('WeChat API is running');
 });
+
+// User routes
+app.use('/api/users', userRoutes);
+// Message routes
+app.use('/api/messages', messageRoutes);
+// Conversation routes
+app.use('/api/conversations', conversationRoutes);
+// Friend routes
+app.use('/api/friends', friendRoutes);
+// Call routes
+app.use('/api/calls', callRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {

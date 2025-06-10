@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   profilePic: { type: String },
   online: { type: Boolean, default: false },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }, // Add this line
   createdAt: { type: Date, default: Date.now }
 });
 
