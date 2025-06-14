@@ -47,12 +47,12 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
-  console.log('✅ MongoDB connected successfully!');
-  server.listen(PORT, () => { // Use server.listen for Socket.IO
-    console.log(`🚀 Server running on port ${PORT}`);
+  console.log(' MongoDB connected successfully!');
+  server.listen(PORT, () => { 
+    console.log(`Server running on port ${PORT}`);
   });
 }).catch((err) => {
-  console.error('❌ MongoDB connection error:', err.message);
+  console.error(' MongoDB connection error:', err.message);
 });
 
 // --- Socket.IO logic ---
@@ -64,7 +64,6 @@ io.on('connection', (socket) => {
     socket.join(roomId);
   });
 
-  // Example: send and receive messages
   socket.on('sendMessage', (data) => {
     // data: { roomId, message }
     io.to(data.roomId).emit('receiveMessage', data);
