@@ -13,36 +13,28 @@ import cors from 'cors';
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app); // Create HTTP server for Socket.IO
+const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin:  process.env.FRONTEND_URL, 
+    origin: process.env.FRONTEND_URL,
     methods: ['GET', 'POST']
   }
 });
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Simple route
 app.get('/', (req, res) => {
   res.send('WeChat API is running');
 });
 
-// User routes
 app.use('/api/users', userRoutes);
-// Message routes
 app.use('/api/messages', messageRoutes);
-// Conversation routes
 app.use('/api/conversations', conversationRoutes);
-// Friend routes
 app.use('/api/friends', friendRoutes);
-// Call routes
 app.use('/api/calls', callRoutes);
 
-// MongoDB connection and server start
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -55,17 +47,14 @@ mongoose.connect(process.env.MONGO_URI, {
   console.error(' MongoDB connection error:', err.message);
 });
 
-// --- Socket.IO logic ---
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
-  // Example: join a chat room
   socket.on('joinRoom', (roomId) => {
     socket.join(roomId);
   });
 
   socket.on('sendMessage', (data) => {
-    // data: { roomId, message }
     io.to(data.roomId).emit('receiveMessage', data);
   });
 

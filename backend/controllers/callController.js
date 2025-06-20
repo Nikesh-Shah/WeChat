@@ -1,6 +1,5 @@
 import Call from '../model/calls.js';
 
-// Create a new call record
 export const createCall = async (req, res) => {
   try {
     const { conversationId, callerId, calleeId, callType, startedAt, endedAt, status } = req.body;
@@ -20,7 +19,6 @@ export const createCall = async (req, res) => {
   }
 };
 
-// Get all calls for a conversation
 export const getCallsByConversation = async (req, res) => {
   try {
     const { conversationId } = req.params;
@@ -31,7 +29,6 @@ export const getCallsByConversation = async (req, res) => {
   }
 };
 
-// Get all calls for a user (as caller or callee)
 export const getUserCalls = async (req, res) => {
   try {
     const { userId } = req.params;
